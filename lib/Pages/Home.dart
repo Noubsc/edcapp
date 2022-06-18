@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:myedc/Pages/myconst.dart';
+import './numpad.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,36 +12,58 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final TextEditingController _myController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: Text('Payment'),
         backgroundColor: Mycolor.mainColor,
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(30),
-          child: Column(
-            children: [
-              TextField(
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(width: 3, color: Mycolor.mainColor),
-                      borderRadius: BorderRadius.circular(30.0)),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  hintText: 'ຈຳນວນເງີນ',
-                  suffixText: '₭',
-                ),
-                keyboardType: TextInputType.number,
-              ),
-            ],
-            mainAxisAlignment: MainAxisAlignment.center,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // display the entered numbers
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: SizedBox(
+              height: 70,
+              child: Center(
+                  child: TextField(
+                controller: _myController,
+                textAlign: TextAlign.center,
+                showCursor: false,
+                style: const TextStyle(fontSize: 40),
+                // Disable the default soft keybaord
+                keyboardType: TextInputType.none,
+              )),
+            ),
           ),
-        ),
+          // implement the custom NumPad
+          NumPad(
+            buttonSize: 75,
+            buttonColor: Color.fromARGB(184, 12, 12, 12),
+            iconColor: Mycolor.mainColor,
+            controller: _myController,
+            delete: () {
+              _myController.text = _myController.text
+                  .substring(0, _myController.text.length - 1);
+            },
+            // do something with the input numbers
+            onSubmit: () {
+              debugPrint('Your code: ${_myController.text}');
+              showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                        content: Text(
+                          "You code is ${_myController.text}",
+                          style: const TextStyle(fontSize: 30),
+                        ),
+                      ));
+            },
+          ),
+        ],
       ),
     );
   }

@@ -87,14 +87,15 @@ class _MyHomePageState extends State<MyHomePage> {
             Icons.home,
             size: 30,
             color: Colors.white,
+            semanticLabel: "test",
           ),
           Icon(
-            Icons.list,
+            Icons.history,
             size: 30,
             color: Colors.white,
           ),
           Icon(
-            Icons.compare_arrows,
+            Icons.settings,
             size: 30,
             color: Colors.white,
           ),
