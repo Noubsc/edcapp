@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 // KeyPad widget
 // This widget is reusable and its buttons are customizable (color, size)
@@ -165,13 +166,16 @@ class NumberButton extends StatelessWidget {
           ),
         ),
         onPressed: () {
-          controller.text += number.toString();
+          int totals = int.parse(
+              controller.text.replaceAll(RegExp('[^0-9]'), '') +
+                  number.toString());
+          controller.text = NumberFormat.decimalPattern('en_us').format(totals);
         },
         child: Center(
           child: Text(
             number.toString(),
             style: const TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.white, fontSize: 30),
+                fontWeight: FontWeight.bold, color: Colors.white, fontSize: 40),
           ),
         ),
       ),
