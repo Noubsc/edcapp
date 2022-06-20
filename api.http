@@ -1,0 +1,26 @@
+
+post http://172.28.14.87:7000/GenerateQR
+Content-Type: application/json
+
+{
+    "amount" : "60000",
+    "username" : "adc3a3358d1a4c0482d88f356d3b9ba4",
+    "fee" : "0",
+    "tranid" : "20220316092300003"
+
+
+}
+
+####
+#### Query Username by msisdn
+####
+
+post http://172.28.14.87:7000/Query
+Content-Type: application/json
+
+{
+   
+    "msisdn" : "2055220199"
+
+}
+####

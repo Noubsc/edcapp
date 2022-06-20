@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:myedc/Pages/myconst.dart';
 import './numpad.dart';
+import './QR.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Payment'),
+        title: Text('ຈ່າຍຜ່ານ QR '),
         backgroundColor: Mycolor.mainColor,
       ),
       body: Column(
@@ -34,7 +35,10 @@ class _HomePageState extends State<HomePage> {
                 controller: _myController,
                 textAlign: TextAlign.center,
                 showCursor: false,
-                style: const TextStyle(fontSize: 40),
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 70,
+                    color: Color.fromARGB(255, 1, 53, 122)),
                 // Disable the default soft keybaord
                 keyboardType: TextInputType.none,
               )),
@@ -42,25 +46,34 @@ class _HomePageState extends State<HomePage> {
           ),
           // implement the custom NumPad
           NumPad(
-            buttonSize: 70,
+            buttonSize: 80,
             buttonColor: Color.fromARGB(184, 12, 12, 12),
             iconColor: Mycolor.mainColor,
             controller: _myController,
             delete: () {
-              _myController.text = _myController.text
-                  .substring(0, _myController.text.length - 1);
+              if (_myController.text.length > 0) {
+                _myController.text = _myController.text
+                    .substring(0, _myController.text.length - 1);
+              }
             },
             // do something with the input numbers
             onSubmit: () {
               debugPrint('Your code: ${_myController.text}');
-              showDialog(
-                  context: context,
-                  builder: (_) => AlertDialog(
-                        content: Text(
-                          "You code is ${_myController.text}",
-                          style: const TextStyle(fontSize: 30),
-                        ),
-                      ));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => QrPage(
+                      qrstring: _myController.text,
+                    ),
+                  ));
+              // showDialog(
+              //     context: context,
+              //     builder: (_) => AlertDialog(
+              //           content: Text(
+              //             "You code is ${_myController.text}",
+              //             style: const TextStyle(fontSize: 20),
+              //           ),
+              //         ));
             },
           ),
         ],

@@ -124,7 +124,7 @@ class NumPad extends StatelessWidget {
               IconButton(
                 onPressed: () => onSubmit(),
                 icon: Icon(
-                  Icons.swipe_down,
+                  Icons.qr_code,
                   color: Colors.green,
                 ),
                 iconSize: buttonSize,
