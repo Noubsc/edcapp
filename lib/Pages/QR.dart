@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:myedc/Pages/AlertMessage.dart';
+import 'package:myedc/Pages/Home.dart';
 import 'package:myedc/Pages/myconst.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -7,6 +9,7 @@ import './responeClass.dart';
 import 'package:intl/intl.dart';
 import 'dart:math';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class QrPage extends StatefulWidget {
   final String? qrstring;
@@ -23,9 +26,37 @@ class _QrPageState extends State<QrPage> {
   void initState() {
     // print(widget.qrstring);
     // alertSuccess();
+
     String amt = widget.qrstring.toString().replaceAll(RegExp('[^0-9]'), '');
+
     genQr(amt);
+
     super.initState();
+  }
+
+  messagebox(BuildContext context) async {
+    AwesomeDialog(
+      context: context,
+      animType: AnimType.LEFTSLIDE,
+      headerAnimationLoop: false,
+      dialogType: DialogType.SUCCES,
+      showCloseIcon: true,
+      title: 'ສຳເລັດ',
+      titleTextStyle: TextStyle(fontSize: 24),
+      desc: 'The QR has been successed \n ',
+      // btnOkOnPress: () {
+      //   //debugPrint('OnClcik');
+      //   Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //         builder: (context) => HomePage(),
+      //       ));
+      // },
+      btnOkIcon: Icons.check_circle,
+      onDissmissCallback: (type) {
+        debugPrint('Dialog Dissmiss from callback $type');
+      },
+    ).show();
   }
 
   genQr(String amount) async {
@@ -61,7 +92,7 @@ class _QrPageState extends State<QrPage> {
         _queryMsisdn = res;
       });
       // _queryMsisdn = res.;
-
+      messagebox(context);
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
